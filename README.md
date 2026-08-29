@@ -112,24 +112,41 @@ modalities, camera metadata schema, valid labels, and operational overrides.
 
 ## Training
 
-Set the model, dataset, output directories, and GPUs, then run both stages:
+Validate the complete dataset before launching a distributed job:
+
+```bash
+export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
+python examples/RoboTwin2/validate_dataset.py "${DATASET_PATH}"
+```
+
+Run the 20k Query Warmup:
 
 ```bash
 export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
+export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
+export WARMUP_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_warmup"
+export NUM_GPUS=4
+export GPU_IDS="0,1,2,3"
+
+bash examples/RoboTwin2/train_query_warmup.sh
+```
+
+Warmup writes `${WARMUP_OUTPUT_DIR}/checkpoint-20000`. Run Full training from
+those weights:
+
+```bash
 export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
 export WARMUP_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_warmup"
 export FULL_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_full"
 export NUM_GPUS=4
 export GPU_IDS="0,1,2,3"
 
-python examples/RoboTwin2/validate_dataset.py "${DATASET_PATH}"
-bash examples/RoboTwin2/train_query_warmup.sh
 bash examples/RoboTwin2/train_c2_full.sh
 ```
 
-Warmup writes `${WARMUP_OUTPUT_DIR}/checkpoint-20000`. Full training
-automatically loads that model, starts a new optimizer with an independent
-120k schedule, and writes `${FULL_OUTPUT_DIR}/checkpoint-120000`.
+Full training automatically loads the Warmup model, starts a new optimizer
+with an independent 120k schedule, and writes
+`${FULL_OUTPUT_DIR}/checkpoint-120000`.
 
 ## Evaluation
 
