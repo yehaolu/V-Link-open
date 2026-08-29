@@ -202,8 +202,6 @@ class Gr00tN1d6Pipeline(ModelPipeline):
             "apply_sincos_state_encoding": (
                 self.model_config.apply_sincos_state_encoding
             ),
-            "max_state_dim": self.model_config.max_state_dim,
-            "max_action_dim": self.model_config.max_action_dim,
             "max_action_horizon": self.model_config.action_horizon,
             "use_albumentations": (
                 self.model_config.use_albumentations_transforms
@@ -237,6 +235,8 @@ class Gr00tN1d6Pipeline(ModelPipeline):
             processor = self.processor_class(
                 statistics=None,
                 embodiment_id_mapping=None,
+                max_state_dim=self.model_config.max_state_dim,
+                max_action_dim=self.model_config.max_action_dim,
                 **self._processor_kwargs(),
             )
 

@@ -146,7 +146,7 @@ def test_target_options_survive_processor_serialization(
     assert restored.include_segmentation_targets is False
 
 
-def test_warmup_recipe_overrides_incompatible_checkpoint_processor(
+def test_warmup_recipe_preserves_checkpoint_dimensions(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
@@ -206,8 +206,10 @@ def test_warmup_recipe_overrides_incompatible_checkpoint_processor(
     assert processor.color_jitter_params == config.model.color_jitter_params
     assert processor.shortest_image_edge == config.model.shortest_image_edge
     assert processor.crop_fraction == config.model.crop_fraction
-    assert processor.max_state_dim == config.model.max_state_dim
-    assert processor.max_action_dim == config.model.max_action_dim
+    assert config.model.max_state_dim == 29
+    assert config.model.max_action_dim == 29
+    assert processor.max_state_dim == 128
+    assert processor.max_action_dim == 128
     assert processor.max_action_horizon == 15
     assert processor.apply_sincos_state_encoding is False
     assert processor.use_relative_action is True
