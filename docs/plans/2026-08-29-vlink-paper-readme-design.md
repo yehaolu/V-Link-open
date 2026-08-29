@@ -26,16 +26,14 @@ Vision-Language-Action Models.”
 4. Released-code scope and fixed RoboTwin2.0 configuration.
 5. Environment setup, base checkpoint, dataset validation, Warmup, Full,
    serving, and evaluation commands.
-6. Repository layout, acknowledgements, license, and citation status.
+6. Acknowledgements, license, and citation.
 
 ## Reproduction contract
 
 - Use the existing `gr00t_n1.6` environment for model training and serving.
 - Follow the official RoboTwin repository for simulator setup.
-- Initialize Warmup from
-  `/mnt/data/yehao/Isaac-GR00T-n1.6-release/checkpoints/GR00T-N1.6-3B` in the
-  reference environment, while explaining that other users must substitute
-  their equivalent local path.
+- Download GR00T-N1.6-3B from its official Hugging Face repository and point
+  `BASE_MODEL_PATH` to the resulting local directory.
 - Link detailed dataset schema and operational overrides to
   `examples/RoboTwin2/README.md` instead of duplicating all details.
 

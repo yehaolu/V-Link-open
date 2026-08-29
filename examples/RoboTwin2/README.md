@@ -20,14 +20,18 @@ official [RoboTwin repository](https://github.com/robotwin-Platform/robotwin).
 Keep its Python interpreter separate if its dependency versions differ from
 the GR00T environment.
 
-The reference run starts Query Warmup from the local GR00T-N1.6-3B checkpoint
-below. On another machine, replace only this path with the equivalent local
-checkpoint directory.
+Download the official GR00T-N1.6-3B checkpoint from
+[Hugging Face](https://huggingface.co/nvidia/GR00T-N1.6-3B):
+
+```bash
+hf download nvidia/GR00T-N1.6-3B \
+  --local-dir checkpoints/GR00T-N1.6-3B
+```
 
 Set paths for your environment without editing the scripts:
 
 ```bash
-export BASE_MODEL_PATH="/mnt/data/yehao/Isaac-GR00T-n1.6-release/checkpoints/GR00T-N1.6-3B"
+export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
 export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
 export ROBOTWIN_ROOT="<RoboTwin repository directory>"
 export ROBOTWIN_PYTHON="<RoboTwin environment Python>"

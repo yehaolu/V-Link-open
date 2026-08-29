@@ -2,17 +2,15 @@
 
 ## Recovering Lost Visual Representations in Action DiT for Vision-Language-Action Models
 
-**Yehao Lu<sup>1</sup>, Jiarui Yang<sup>2</sup>, Yuning Su<sup>3</sup>,
-Yufeng Xie<sup>4</sup>, Yu Zhong<sup>4</sup>, Yazhou Zhang<sup>4</sup>,
-Haiyu Lan<sup>4</sup>, Peiwen Lin<sup>4</sup>, Chuang Wang<sup>4</sup>,
-Zequn Qin<sup>1</sup>, Enyu Li<sup>4†</sup>, Xi Li<sup>1†</sup>**
+**Yehao Lu, Jiarui Yang, Yuning Su, Yufeng Xie, Yu Zhong, Yazhou Zhang,
+Haiyu Lan, Kaixiang Lu, Peiwen Lin, Chuang Wang, Zequn Qin, Enyu Li, Xi Li**
 
-<sup>1</sup>Zhejiang University &nbsp;
-<sup>2</sup>The Hong Kong University of Science and Technology (Guangzhou) &nbsp;
-<sup>3</sup>Simon Fraser University &nbsp;
-<sup>4</sup>AGIBOT
+Zhejiang University &nbsp;·&nbsp;
+The Hong Kong University of Science and Technology (Guangzhou) &nbsp;·&nbsp;
+Simon Fraser University &nbsp;·&nbsp; AGIBOT
 
-<sup>†</sup>Corresponding authors
+[Paper](https://arxiv.org/abs/2608.25308) &nbsp;|&nbsp;
+[Code](https://github.com/yehaolu/V-Link-open)
 
 This repository is the official implementation of **V-Link**, accompanying the
 paper *V-Link: Recovering Lost Visual Representations in Action DiT for
@@ -94,14 +92,17 @@ cd V-Link-open
 python -m pip install -e .
 ```
 
-The reference run initializes Query Warmup from:
+Download the official GR00T-N1.6-3B checkpoint from
+[Hugging Face](https://huggingface.co/nvidia/GR00T-N1.6-3B):
 
 ```bash
-export BASE_MODEL_PATH="/mnt/data/yehao/Isaac-GR00T-n1.6-release/checkpoints/GR00T-N1.6-3B"
+hf download nvidia/GR00T-N1.6-3B \
+  --local-dir checkpoints/GR00T-N1.6-3B
+export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
 ```
 
-That path is specific to the reference machine. On another machine, set
-`BASE_MODEL_PATH` to the equivalent local GR00T-N1.6-3B checkpoint directory.
+If the checkpoint is already available elsewhere, set `BASE_MODEL_PATH` to
+that local directory instead.
 
 Set up RoboTwin and its evaluation environment by following the official
 [RoboTwin repository](https://github.com/robotwin-Platform/robotwin). The
@@ -165,17 +166,6 @@ The client evaluates `click_alarmclock`, `click_bell`, `move_pillbottle_pad`,
 `move_stapler_pad`, `place_bread_skillet`, `place_mouse_pad`,
 `place_object_stand`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
 
-## Repository layout
-
-```text
-examples/RoboTwin2/           Public validation, training, and evaluation entry points
-gr00t/model/gr00t_n1d6/      V-Link model setup, processing, and checkpoint loading
-gr00t/model/modules/         Spatial/Semantic Query heads and C2 bridge
-gr00t/policy/                Inference policy and serving boundary
-tests/gr00t/model/           Fixed-recipe and model regression tests
-tests/gr00t/policy/          Public inference contract tests
-```
-
 ## Acknowledgements
 
 V-Link is an independent research project and is not affiliated with or
@@ -192,13 +182,17 @@ components remain subject to their respective licenses and notices.
 
 ## Citation
 
-If you find this work useful, please cite:
+If you find this work useful, please cite the
+[paper](https://arxiv.org/abs/2608.25308):
 
 ```bibtex
-@article{lu2026vlink,
-  title   = {V-Link: Recovering Lost Visual Representations in Action DiT for Vision-Language-Action Models},
-  author  = {Lu, Yehao and Yang, Jiarui and Su, Yuning and Xie, Yufeng and Zhong, Yu and Zhang, Yazhou and Lan, Haiyu and Lin, Peiwen and Wang, Chuang and Qin, Zequn and Li, Enyu and Li, Xi},
-  year    = {2026},
-  note    = {Preprint}
+@misc{lu2026vlinkrecoveringlostvisual,
+  title         = {V-Link: Recovering Lost Visual Representations in Action DiT for Vision-Language-Action Models},
+  author        = {Yehao Lu and Jiarui Yang and Yuning Su and Yufeng Xie and Yu Zhong and Yazhou Zhang and Haiyu Lan and Kaixiang Lu and Peiwen Lin and Chuang Wang and Zequn Qin and Enyu Li and Xi Li},
+  year          = {2026},
+  eprint        = {2608.25308},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2608.25308}
 }
 ```
