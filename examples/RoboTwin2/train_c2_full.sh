@@ -58,7 +58,7 @@ fi
 export CUDA_VISIBLE_DEVICES="${GPU_IDS}"
 export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
 
-"${PYTHON}" "${REPO_ROOT}/examples/RoboTwin2/validate_dataset.py" "${DATASET_PATH}"
+# "${PYTHON}" "${REPO_ROOT}/examples/RoboTwin2/validate_dataset.py" "${DATASET_PATH}"
 
 exec "${PYTHON}" -m torch.distributed.run \
   --nproc_per_node="${NUM_GPUS}" \

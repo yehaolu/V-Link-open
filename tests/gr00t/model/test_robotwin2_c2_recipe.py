@@ -250,6 +250,24 @@ def test_training_launchers_use_the_fixed_entrypoint_without_passthrough():
         assert '"$@"' not in text
 
 
+def test_training_launchers_do_not_validate_the_dataset_automatically():
+    commented_validation = (
+        '# "${PYTHON}" "${REPO_ROOT}/examples/RoboTwin2/validate_dataset.py" '
+        '"${DATASET_PATH}"'
+    )
+
+    for name in ("train_query_warmup.sh", "train_c2_full.sh"):
+        text = (EXAMPLE_DIR / name).read_text()
+        active_lines = [
+            line
+            for line in text.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+
+        assert commented_validation in text
+        assert all("validate_dataset.py" not in line for line in active_lines)
+
+
 @pytest.mark.parametrize("script_name", ("train_query_warmup.sh", "train_c2_full.sh"))
 def test_training_launcher_arguments_are_accepted_by_real_tyro_parser(
     tmp_path: Path,
