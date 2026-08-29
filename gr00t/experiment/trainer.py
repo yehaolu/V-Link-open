@@ -190,6 +190,8 @@ class Gr00tTrainer(Trainer):
         """
         self.action_offset = kwargs.pop("action_offset", None)
         self.multiprocessing_context = kwargs.pop("multiprocessing_context", "fork")
+        self._aux_log_sums: dict[str, float] = {}
+        self._aux_log_count = 0
         super().__init__(
             *args,
             **kwargs,
@@ -197,11 +199,52 @@ class Gr00tTrainer(Trainer):
         )
 
     def log(self, logs: dict[str, float], start_time: Optional[float] = None) -> None:
+        if "loss" in logs and self._aux_log_count > 0:
+            aux_logs = {
+                name: value / self._aux_log_count
+                for name, value in self._aux_log_sums.items()
+            }
+            logs.update(aux_logs)
+            self._aux_log_sums = {}
+            self._aux_log_count = 0
+
         # Hide epoch from logged metrics as it's misleading for Iterable datasets.
         epoch = self.state.epoch
         self.state.epoch = None
         super().log(logs, start_time=start_time)
         self.state.epoch = epoch
+
+    def _to_global_float(self, value: torch.Tensor | None) -> float | None:
+        if value is None:
+            return None
+        if not torch.is_tensor(value):
+            return float(value)
+        with torch.no_grad():
+            scalar = value.detach()
+            if scalar.numel() != 1:
+                scalar = scalar.float().mean()
+            gathered = self._nested_gather(scalar.reshape(1)).float()
+            return float(gathered.mean().cpu())
+
+    def _record_aux_logs(self, outputs: Any, total_loss: torch.Tensor) -> None:
+        if not isinstance(outputs, dict):
+            return
+
+        metrics = {
+            "total/loss": total_loss.detach(),
+            "action/loss": outputs.get("action_loss_scalar"),
+            "depth/loss": outputs.get("depth_loss"),
+            "segmentation/loss": outputs.get("segmentation_loss"),
+        }
+        recorded = False
+        for name, value in metrics.items():
+            scalar = self._to_global_float(value)
+            if scalar is None:
+                continue
+            self._aux_log_sums[name] = self._aux_log_sums.get(name, 0.0) + scalar
+            recorded = True
+        if recorded:
+            self._aux_log_count += 1
 
     def get_train_dataloader(self):  # noqa: D401
         """Return a iterable dataloader without skipping the data during resume, but reseed the dataset instead."""
@@ -301,6 +344,8 @@ class Gr00tTrainer(Trainer):
 
         # Record last loss for testing purposes.
         self.loss = loss
+        if model.training:
+            self._record_aux_logs(outputs, loss)
 
         # --------------------------------------------------------------
         # Accuracy calculation
