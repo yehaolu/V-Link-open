@@ -90,25 +90,16 @@ Download the official GR00T-N1.6-3B checkpoint from
 ```bash
 hf download nvidia/GR00T-N1.6-3B \
   --local-dir checkpoints/GR00T-N1.6-3B
-export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
 ```
 
-If the checkpoint is already available elsewhere, set `BASE_MODEL_PATH` to
-that local directory instead.
+If the checkpoint is already available elsewhere, use that directory as
+`BASE_MODEL_PATH` in the training command below.
 
 Set up RoboTwin and its evaluation environment by following the official
 [RoboTwin repository](https://github.com/robotwin-Platform/robotwin). The
 RoboTwin interpreter may remain separate from the training environment.
 
 ## Dataset
-
-Set the training dataset and RoboTwin checkout paths:
-
-```bash
-export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
-export ROBOTWIN_ROOT="<RoboTwin repository directory>"
-export ROBOTWIN_PYTHON="<RoboTwin environment Python>"
-```
 
 Training requires three RGB views plus per-frame depth and semantic targets.
 The auxiliary targets are used only during training.
@@ -121,46 +112,43 @@ modalities, camera metadata schema, valid labels, and operational overrides.
 
 ## Training
 
-Before running Query Warmup, export both `BASE_MODEL_PATH` and `DATASET_PATH`
-as shown above. The Warmup launcher has no default for either variable and
-exits immediately if either one is missing.
-
-Validate the complete dataset before launching a distributed job:
+Set the model, dataset, output directories, and GPUs, then run both stages:
 
 ```bash
-"${PYTHON}" examples/RoboTwin2/validate_dataset.py "${DATASET_PATH}"
-```
+export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
+export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
+export WARMUP_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_warmup"
+export FULL_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_full"
+export NUM_GPUS=4
+export GPU_IDS="0,1,2,3"
 
-Run the 20k Query Warmup:
-
-```bash
+python examples/RoboTwin2/validate_dataset.py "${DATASET_PATH}"
 bash examples/RoboTwin2/train_query_warmup.sh
-```
-
-Warmup writes `outputs/robotwin2_c2_warmup/checkpoint-20000`. The Full launcher
-automatically initializes from that checkpoint, so it does not use
-`BASE_MODEL_PATH` again. `DATASET_PATH` must remain set.
-
-Run Full training:
-
-```bash
 bash examples/RoboTwin2/train_c2_full.sh
 ```
 
-Full training uses a new optimizer and an independent 120k schedule. Its final
-checkpoint is `outputs/robotwin2_c2_full/checkpoint-120000`.
+Warmup writes `${WARMUP_OUTPUT_DIR}/checkpoint-20000`. Full training
+automatically loads that model, starts a new optimizer with an independent
+120k schedule, and writes `${FULL_OUTPUT_DIR}/checkpoint-120000`.
 
 ## Evaluation
 
 Start the policy server in the `gr00t_n1.6` environment:
 
 ```bash
+export CHECKPOINT="$(pwd)/outputs/robotwin2_c2_full/checkpoint-120000"
+export GPU=0
+
 bash examples/RoboTwin2/eval_server.sh
 ```
 
 In another shell, activate the RoboTwin environment and run:
 
 ```bash
+export ROBOTWIN_ROOT="<RoboTwin repository directory>"
+export ROBOTWIN_PYTHON="<RoboTwin environment Python>"
+export GPU=0
+
 bash examples/RoboTwin2/eval_client.sh
 ```
 
