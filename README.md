@@ -3,11 +3,14 @@
 ## Recovering Lost Visual Representations in Action DiT for Vision-Language-Action Models
 
 **Yehao Lu, Jiarui Yang, Yuning Su, Yufeng Xie, Yu Zhong, Yazhou Zhang,
-Haiyu Lan, Kaixiang Lu, Peiwen Lin, Chuang Wang, Zequn Qin, Enyu Li, Xi Li**
+Jihe Guo, Haiyu Lan, Kaixiang Lu, Peiwen Lin, Chuang Wang, Zequn Qin,
+Enyu Li<sup>†</sup>, Xi Li<sup>†</sup>**
 
 Zhejiang University &nbsp;·&nbsp;
 The Hong Kong University of Science and Technology (Guangzhou) &nbsp;·&nbsp;
 Simon Fraser University &nbsp;·&nbsp; AGIBOT
+
+<sup>†</sup>Corresponding authors
 
 [Paper](https://arxiv.org/abs/2608.25308) &nbsp;|&nbsp;
 [Code](https://github.com/yehaolu/V-Link-open)
@@ -25,6 +28,13 @@ may not retain full access to the VLM's geometric and semantic information.
 V-Link addresses this visual-representation accessibility bottleneck at the
 vision-language-to-action interface. It learns complementary visual queries in
 the VLM and makes them directly accessible to Action DiT.
+
+<p align="center">
+  <img src="https://arxiv.org/html/2608.25308v1/method_overview.png"
+       alt="Overview of the V-Link method" width="100%">
+</p>
+
+<p align="center"><em>Overview of the V-Link method.</em></p>
 
 - **Spatial Queries** learn 3D geometric cues with training-only depth
   supervision.
@@ -182,7 +192,7 @@ If you find this work useful, please cite the
 ```bibtex
 @misc{lu2026vlinkrecoveringlostvisual,
   title         = {V-Link: Recovering Lost Visual Representations in Action DiT for Vision-Language-Action Models},
-  author        = {Yehao Lu and Jiarui Yang and Yuning Su and Yufeng Xie and Yu Zhong and Yazhou Zhang and Haiyu Lan and Kaixiang Lu and Peiwen Lin and Chuang Wang and Zequn Qin and Enyu Li and Xi Li},
+  author        = {Yehao Lu and Jiarui Yang and Yuning Su and Yufeng Xie and Yu Zhong and Yazhou Zhang and Jihe Guo and Haiyu Lan and Kaixiang Lu and Peiwen Lin and Chuang Wang and Zequn Qin and Enyu Li and Xi Li},
   year          = {2026},
   eprint        = {2608.25308},
   archivePrefix = {arXiv},
