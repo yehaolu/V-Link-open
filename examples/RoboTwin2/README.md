@@ -37,6 +37,9 @@ export ROBOTWIN_ROOT="<RoboTwin repository directory>"
 export ROBOTWIN_PYTHON="<RoboTwin environment Python>"
 ```
 
+A packaged RoboTwin training dataset is available from the repository's
+[GitHub Releases](https://github.com/yehaolu/V-Link-open/releases).
+
 The dataset must provide the three video modalities `image`,
 `left_wrist_image`, and `right_wrist_image`; the state and action modalities
 `left_gripper`, `right_gripper`, `left_arm_eef`, and `right_arm_eef`; and

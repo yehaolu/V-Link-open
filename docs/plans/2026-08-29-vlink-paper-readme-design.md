@@ -21,12 +21,12 @@ Vision-Language-Action Models.”
 1. Paper title, authors, affiliations, and a link to the repository.
 2. A concise summary of the visual-representation accessibility problem and
    V-Link's Spatial/Semantic Query solution.
-3. Paper results, clearly labeled as reported results rather than promises of
-   released benchmark code.
-4. Released-code scope and fixed RoboTwin2.0 configuration.
-5. Environment setup, base checkpoint, dataset validation, Warmup, Full,
+3. Released-code scope and fixed RoboTwin2.0 configuration.
+4. Environment setup, base checkpoint, dataset validation, Warmup, Full,
    serving, and evaluation commands.
-6. Acknowledgements, license, and citation.
+5. Paper results, clearly labeled as reported results rather than promises of
+   released benchmark code.
+6. License and citation.
 
 ## Reproduction contract
 
@@ -34,6 +34,7 @@ Vision-Language-Action Models.”
 - Follow the official RoboTwin repository for simulator setup.
 - Download GR00T-N1.6-3B from its official Hugging Face repository and point
   `BASE_MODEL_PATH` to the resulting local directory.
+- Link to the packaged RoboTwin training dataset in GitHub Releases.
 - Link detailed dataset schema and operational overrides to
   `examples/RoboTwin2/README.md` instead of duplicating all details.
 

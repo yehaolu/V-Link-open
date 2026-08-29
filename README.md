@@ -37,24 +37,6 @@ the VLM and makes them directly accessible to Action DiT.
 - Auxiliary depth and segmentation heads are removed at inference. Depth,
   segmentation, and camera calibration are not required for deployment.
 
-## Results reported in the paper
-
-V-Link improves the average success rate over the base model on all three
-simulation benchmarks evaluated in the paper.
-
-| Benchmark | Base | V-Link | Improvement |
-| --- | ---: | ---: | ---: |
-| LIBERO | 97.4 | **99.3** | **+1.9** |
-| LIBERO-Plus | 43.8 | **75.0** | **+31.2** |
-| RoboTwin 2.0 | 38.0 | **56.8** | **+18.8** |
-
-On the AGIBOT A3 Ultra, V-Link reaches 98% success on Autonomous Power-On and
-94% on Autonomous Power-Off, improving over the base model by +20 and +24
-percentage points. It adds 1.58 ms of inference latency in the paper's setup.
-
-These values are paper results. This public release currently contains the
-fixed RoboTwin2.0 training and evaluation path described below.
-
 ## Released configuration
 
 The released recipe retains one reproducible V-Link configuration:
@@ -121,6 +103,9 @@ export ROBOTWIN_PYTHON="<RoboTwin environment Python>"
 Training requires three RGB views plus per-frame depth and semantic targets.
 The auxiliary targets are used only during training.
 
+A packaged RoboTwin training dataset is available from the repository's
+[GitHub Releases](https://github.com/yehaolu/V-Link-open/releases).
+
 See [the RoboTwin2 guide](examples/RoboTwin2/README.md) for the exact LeRobot
 modalities, camera metadata schema, valid labels, and operational overrides.
 
@@ -166,14 +151,23 @@ The client evaluates `click_alarmclock`, `click_bell`, `move_pillbottle_pad`,
 `move_stapler_pad`, `place_bread_skillet`, `place_mouse_pad`,
 `place_object_stand`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
 
-## Acknowledgements
+## Results reported in the paper
 
-V-Link is an independent research project and is not affiliated with or
-endorsed by NVIDIA. The implementation uses GR00T N1.6 as its initialization
-base and builds on its open research code.
+V-Link improves the average success rate over the base model on all three
+simulation benchmarks evaluated in the paper.
 
-We also thank the authors and maintainers of RoboTwin, LIBERO, LIBERO-Plus, and
-the other research projects cited in the paper.
+| Benchmark | Base | V-Link | Improvement |
+| --- | ---: | ---: | ---: |
+| LIBERO | 97.4 | **99.3** | **+1.9** |
+| LIBERO-Plus | 43.8 | **75.0** | **+31.2** |
+| RoboTwin 2.0 | 38.0 | **56.8** | **+18.8** |
+
+On the AGIBOT A3 Ultra, V-Link reaches 98% success on Autonomous Power-On and
+94% on Autonomous Power-Off, improving over the base model by +20 and +24
+percentage points. It adds 1.58 ms of inference latency in the paper's setup.
+
+These values are paper results. This public release currently contains the
+fixed RoboTwin2.0 training and evaluation path described above.
 
 ## License
 

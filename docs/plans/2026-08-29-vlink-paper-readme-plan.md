@@ -24,7 +24,9 @@ full dataset schema and operational override reference to the existing
 
 - [ ] Replace all inherited branding and generic upstream documentation with
   the V-Link paper title, authors, method, reported results, release scope,
-  reproduction commands, acknowledgements, license, and citation.
+  reproduction commands, license, and citation.
+- [ ] Link the packaged RoboTwin training dataset in GitHub Releases.
+- [ ] Place paper results after Evaluation and before License.
 - [ ] Verify the method statements and results against
   `/mnt/data/yehao/V-Link-arXiv.pdf`.
 - [ ] Verify setup and workflow commands against the retained RoboTwin2 shell
