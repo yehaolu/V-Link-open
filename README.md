@@ -121,6 +121,10 @@ modalities, camera metadata schema, valid labels, and operational overrides.
 
 ## Training
 
+Before running Query Warmup, export both `BASE_MODEL_PATH` and `DATASET_PATH`
+as shown above. The Warmup launcher has no default for either variable and
+exits immediately if either one is missing.
+
 Validate the complete dataset before launching a distributed job:
 
 ```bash
@@ -133,8 +137,11 @@ Run the 20k Query Warmup:
 bash examples/RoboTwin2/train_query_warmup.sh
 ```
 
-Warmup writes `outputs/robotwin2_c2_warmup/checkpoint-20000`. Run Full training
-from those weights:
+Warmup writes `outputs/robotwin2_c2_warmup/checkpoint-20000`. The Full launcher
+automatically initializes from that checkpoint, so it does not use
+`BASE_MODEL_PATH` again. `DATASET_PATH` must remain set.
+
+Run Full training:
 
 ```bash
 bash examples/RoboTwin2/train_c2_full.sh
