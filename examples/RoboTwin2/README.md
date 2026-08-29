@@ -6,19 +6,31 @@ and evaluate the fixed ten-task suite.
 
 ## Prerequisites and data
 
-Run commands from the repository root in an environment with this project and
-its GR00T/PyTorch dependencies installed. Training needs a local
-GR00T-N1.6-3B model directory and a RoboTwin2 dataset in LeRobot format.
-Evaluation also needs a compatible RoboTwin checkout.
+Training and policy serving use exactly the same environment and dependencies
+as GR00T N1.6. Activate the existing `gr00t_n1.6` Conda environment; V-Link
+does not require a separate Python environment.
+
+```bash
+conda activate gr00t_n1.6
+export PYTHON="$(command -v python)"
+```
+
+Configure the RoboTwin simulator and evaluation environment by following the
+official [RoboTwin repository](https://github.com/robotwin-Platform/robotwin).
+Keep its Python interpreter separate if its dependency versions differ from
+the GR00T environment.
+
+The reference run starts Query Warmup from the local GR00T-N1.6-3B checkpoint
+below. On another machine, replace only this path with the equivalent local
+checkpoint directory.
 
 Set paths for your environment without editing the scripts:
 
 ```bash
-export PYTHON="${CONDA_PREFIX}/bin/python"
-export BASE_MODEL_PATH="<GR00T-N1.6-3B directory>"
+export BASE_MODEL_PATH="/mnt/data/yehao/Isaac-GR00T-n1.6-release/checkpoints/GR00T-N1.6-3B"
 export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
 export ROBOTWIN_ROOT="<RoboTwin repository directory>"
-export ROBOTWIN_PYTHON=python
+export ROBOTWIN_PYTHON="<RoboTwin environment Python>"
 ```
 
 The dataset must provide the three video modalities `image`,

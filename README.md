@@ -13,6 +13,26 @@
   </p>
 </div>
 
+## V-Link for RoboTwin2
+
+V-Link provides a fixed, reproducible RoboTwin2 C2 workflow: dataset
+validation, 20k Query Warmup, 120k Full training, policy serving, and ten-task
+evaluation. See the [RoboTwin2 guide](examples/RoboTwin2/README.md).
+
+Training and policy serving use exactly the same environment as GR00T N1.6.
+Activate the existing `gr00t_n1.6` environment; no separate V-Link Python
+environment is required.
+
+```bash
+conda activate gr00t_n1.6
+export PYTHON="$(command -v python)"
+export BASE_MODEL_PATH="/mnt/data/yehao/Isaac-GR00T-n1.6-release/checkpoints/GR00T-N1.6-3B"
+```
+
+The first stage starts from this GR00T-N1.6-3B checkpoint. Set up the simulator
+and evaluation client by following the official
+[RoboTwin repository](https://github.com/robotwin-Platform/robotwin).
+
 ## NVIDIA Isaac GR00T
 
 <!-- <div align="center">
