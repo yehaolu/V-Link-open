@@ -124,20 +124,17 @@ Run the 20k Query Warmup:
 ```bash
 export BASE_MODEL_PATH="$(pwd)/checkpoints/GR00T-N1.6-3B"
 export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
-export WARMUP_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_warmup"
 export NUM_GPUS=4
 export GPU_IDS="0,1,2,3"
 
 bash examples/RoboTwin2/train_query_warmup.sh
 ```
 
-Warmup writes `${WARMUP_OUTPUT_DIR}/checkpoint-20000`. Run Full training from
-those weights:
+Warmup writes `outputs/robotwin2_c2_warmup/checkpoint-20000`. Run Full training
+from those weights:
 
 ```bash
 export DATASET_PATH="<RoboTwin2 LeRobot dataset directory>"
-export WARMUP_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_warmup"
-export FULL_OUTPUT_DIR="$(pwd)/outputs/robotwin2_c2_full"
 export NUM_GPUS=4
 export GPU_IDS="0,1,2,3"
 
@@ -146,7 +143,7 @@ bash examples/RoboTwin2/train_c2_full.sh
 
 Full training automatically loads the Warmup model, starts a new optimizer
 with an independent 120k schedule, and writes
-`${FULL_OUTPUT_DIR}/checkpoint-120000`.
+`outputs/robotwin2_c2_full/checkpoint-120000`.
 
 ## Evaluation
 

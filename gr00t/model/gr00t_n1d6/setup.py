@@ -255,14 +255,12 @@ class Gr00tN1d6Pipeline(ModelPipeline):
         train_dataset, eval_dataset = DatasetFactory(
             config=self.config
         ).build(processor=processor)
-        if get_rank() == 0:
-            statistics = convert_tensors_to_lists(
-                train_dataset.get_dataset_statistics()
-            )
-            save_cfg_dir.mkdir(parents=True, exist_ok=True)
-            (save_cfg_dir / "dataset_statistics.json").write_text(
-                json.dumps(statistics, indent=2)
-            )
+        statistics = convert_tensors_to_lists(
+            train_dataset.get_dataset_statistics()
+        )
+        (save_cfg_dir / "dataset_statistics.json").write_text(
+            json.dumps(statistics, indent=2)
+        )
         return train_dataset, eval_dataset
 
 

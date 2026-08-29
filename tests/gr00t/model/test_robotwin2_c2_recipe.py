@@ -78,43 +78,6 @@ def test_recipe_rejects_unknown_stage():
         apply_c2_recipe(Gr00tN1d6Config(), stage="unsupported")
 
 
-def test_nonzero_rank_does_not_write_shared_dataset_statistics(tmp_path, monkeypatch):
-    from types import SimpleNamespace
-
-    from gr00t.model.gr00t_n1d6 import setup as setup_module
-
-    class FakeDataset:
-        def get_dataset_statistics(self):
-            return {"new_embodiment": {}}
-
-    class FakeFactory:
-        def __init__(self, config):
-            pass
-
-        def build(self, processor):
-            return FakeDataset(), None
-
-    monkeypatch.setattr(setup_module, "get_rank", lambda: 1)
-    monkeypatch.setattr(
-        setup_module.AutoProcessor,
-        "from_pretrained",
-        lambda *args, **kwargs: object(),
-    )
-    monkeypatch.setattr(setup_module, "DatasetFactory", FakeFactory)
-
-    pipeline = object.__new__(setup_module.Gr00tN1d6Pipeline)
-    pipeline.config = SimpleNamespace(
-        training=SimpleNamespace(start_from_checkpoint="base-model")
-    )
-    pipeline.save_cfg_dir = tmp_path / "experiment_cfg"
-    pipeline.transformers_loading_kwargs = {}
-    pipeline._processor_kwargs = lambda: {}
-
-    pipeline._create_dataset(pipeline.save_cfg_dir)
-
-    assert not (pipeline.save_cfg_dir / "dataset_statistics.json").exists()
-
-
 def test_build_config_propagates_dataloader_worker_count(tmp_path: Path):
     from examples.RoboTwin2.train import RoboTwin2TrainConfig, build_config
 
