@@ -62,8 +62,7 @@ The released recipe retains one reproducible V-Link configuration:
 - 15-step dual-arm action chunks.
 
 The paper reports RoboTwin2.0 results on six challenging tasks. The released
-client provides a ten-task evaluation suite that contains those six tasks and
-four additional tasks.
+client evaluates exactly those six tasks.
 
 ## Installation
 
@@ -166,9 +165,8 @@ export GPU=0
 bash examples/RoboTwin2/eval_client.sh
 ```
 
-The client evaluates `click_alarmclock`, `click_bell`, `move_pillbottle_pad`,
-`move_stapler_pad`, `place_bread_skillet`, `place_mouse_pad`,
-`place_object_stand`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
+The client evaluates `move_pillbottle_pad`, `move_stapler_pad`,
+`place_bread_skillet`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
 
 ## Results reported in the paper
 

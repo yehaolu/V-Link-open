@@ -1,6 +1,7 @@
 from dataclasses import fields
 import os
 from pathlib import Path
+import re
 import shlex
 import subprocess
 
@@ -358,6 +359,34 @@ def test_eval_client_fixes_the_public_evaluation_method():
     assert "TASK_CONFIG=" not in text
     assert "--chunk_exec full" in text
     assert "--task_config demo_clean" in text
+
+
+def test_eval_client_and_documentation_fix_the_six_paper_tasks():
+    expected_tasks = (
+        "move_pillbottle_pad",
+        "move_stapler_pad",
+        "place_bread_skillet",
+        "place_phone_stand",
+        "press_stapler",
+        "turn_switch",
+    )
+    client_text = (EXAMPLE_DIR / "eval_client.sh").read_text()
+    task_block = re.search(r"TASKS=\(\n(?P<tasks>.*?)\n\)", client_text, re.DOTALL)
+
+    assert task_block is not None
+    assert tuple(task_block.group("tasks").split()) == expected_tasks
+
+    removed_tasks = (
+        "click_alarmclock",
+        "click_bell",
+        "place_mouse_pad",
+        "place_object_stand",
+    )
+    for readme in (REPO_ROOT / "README.md", EXAMPLE_DIR / "README.md"):
+        text = readme.read_text()
+        assert all(task in text for task in expected_tasks)
+        assert all(task not in text for task in removed_tasks)
+        assert "ten-task" not in text
 
 
 @pytest.mark.parametrize("script_name", ("train_query_warmup.sh", "train_c2_full.sh"))

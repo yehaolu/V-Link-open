@@ -2,7 +2,7 @@
 
 This directory is the complete public RoboTwin2 workflow: validate the dataset,
 run the 20k query Warmup, run the 120k Full stage, serve the Full checkpoint,
-and evaluate the fixed ten-task suite.
+and evaluate the fixed six-task suite reported in the paper.
 
 ## Prerequisites and data
 
@@ -91,9 +91,8 @@ In another shell, run the client:
 bash examples/RoboTwin2/eval_client.sh
 ```
 
-The client evaluates `click_alarmclock`, `click_bell`, `move_pillbottle_pad`,
-`move_stapler_pad`, `place_bread_skillet`, `place_mouse_pad`,
-`place_object_stand`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
+The client evaluates `move_pillbottle_pad`, `move_stapler_pad`,
+`place_bread_skillet`, `place_phone_stand`, `press_stapler`, and `turn_switch`.
 
 ## Fixed method and operational overrides
 

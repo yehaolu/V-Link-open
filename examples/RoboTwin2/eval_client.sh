@@ -21,13 +21,9 @@ if [[ ! -d "${ROBOTWIN_ROOT}" ]]; then
 fi
 
 TASKS=(
-  click_alarmclock
-  click_bell
   move_pillbottle_pad
   move_stapler_pad
   place_bread_skillet
-  place_mouse_pad
-  place_object_stand
   place_phone_stand
   press_stapler
   turn_switch
